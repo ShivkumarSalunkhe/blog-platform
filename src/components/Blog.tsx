@@ -117,7 +117,6 @@ export default function Blog() {
           )}
         </Box>
         {spinner && <LoadingSpinner />}
-        {posts?.length > 0 && (
           <main>
             <MainFeaturedPost post={mainFeaturedPost} />
             <Grid container spacing={4}>
@@ -135,7 +134,6 @@ export default function Blog() {
               />
             </Grid>
           </main>
-        )}
       </Container>
       <Footer
         title="Footer"

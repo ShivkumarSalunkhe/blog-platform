@@ -150,13 +150,6 @@ export default function MainFeaturedPost(props: MainFeaturedPostProps) {
             <Typography variant="h4" color="white" gutterBottom>
               No blog posts available
             </Typography>
-            <Button
-              variant="contained"
-              color="primary"
-              onClick={() => router.push("/post/create")}
-            >
-              Start Creating a Blog
-            </Button>
           </Box>
         </Paper>
       )}

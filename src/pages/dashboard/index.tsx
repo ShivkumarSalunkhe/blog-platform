@@ -119,7 +119,6 @@ function DashBoard() {
           </Button>
         </Box>
         {spinner && <LoadingSpinner />}
-        {posts?.length > 0 && (
           <main>
             <MainFeaturedPost post={mainFeaturedPost} />
             <Grid container spacing={4}>
@@ -137,7 +136,6 @@ function DashBoard() {
               />
             </Grid>
           </main>
-        )}
       </Container>
       <Footer
         title="Footer"
