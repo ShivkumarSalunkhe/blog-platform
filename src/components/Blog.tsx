@@ -14,9 +14,13 @@ import Main from "./Main";
 import Sidebar from "./Sidebar";
 import Footer from "./Footer";
 import LoadingSpinner from "./LoadingSpinner";
-import { Box, Button } from "@mui/material";
+import { Box, Button, IconButton } from "@mui/material";
 import EditNoteIcon from "@mui/icons-material/EditNote";
+import Brightness4Icon from "@mui/icons-material/Brightness4";
+import Brightness7Icon from "@mui/icons-material/Brightness7";
 import { useRouter } from "next/router";
+import ThemeProviderButton from "./ThemeProviderButton";
+import { darkTheme, lightTheme } from "./Theme";
 
 const sidebar = {
   title: "About",
@@ -42,8 +46,6 @@ const sidebar = {
   ],
 };
 
-const defaultTheme = createTheme();
-
 interface Post {
   content: string;
   _id: string;
@@ -66,6 +68,7 @@ export default function Blog() {
     null
   );
   const [spinner, setSpinner] = React.useState(false);
+  const [theme, setTheme] = React.useState(lightTheme);
   const router = useRouter();
   const [user, setUser] = React.useState<string | null>(null);
 
@@ -98,12 +101,26 @@ export default function Blog() {
     fetchPosts();
   }, []);
 
+  const toggleTheme = () => {
+    setTheme((prevTheme) =>
+      prevTheme.palette.mode === "light" ? darkTheme : lightTheme
+    );
+  };
+
   return (
-    <ThemeProvider theme={defaultTheme}>
+    <ThemeProvider theme={theme}>
+      <ThemeProviderButton toggleTheme={toggleTheme} />
       <CssBaseline />
       <Container maxWidth="lg" sx={{ minHeight: "90vh" }}>
         <Header title="NextJS Blog App" />
-        <Box sx={{ display: "flex", justifyContent: "center" }}>
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            mb: 2,
+          }}
+        >
           {user && (
             <Button
               variant="contained"
@@ -117,23 +134,23 @@ export default function Blog() {
           )}
         </Box>
         {spinner && <LoadingSpinner />}
-          <main>
-            <MainFeaturedPost post={mainFeaturedPost} />
-            <Grid container spacing={4}>
-              {posts.map((post) => (
-                <FeaturedPost key={post._id} post={post} />
-              ))}
-            </Grid>
-            <Grid container spacing={5} sx={{ mt: 3, minHeight: "50vh" }}>
-              <Main posts={posts} />
-              <Sidebar
-                title={sidebar.title}
-                description={sidebar.description}
-                archives={sidebar.archives}
-                social={sidebar.social}
-              />
-            </Grid>
-          </main>
+        <main>
+          <MainFeaturedPost post={mainFeaturedPost} />
+          <Grid container spacing={4}>
+            {posts.map((post) => (
+              <FeaturedPost key={post._id} post={post} />
+            ))}
+          </Grid>
+          <Grid container spacing={5} sx={{ mt: 3, minHeight: "50vh" }}>
+            <Main posts={posts} />
+            <Sidebar
+              title={sidebar.title}
+              description={sidebar.description}
+              archives={sidebar.archives}
+              social={sidebar.social}
+            />
+          </Grid>
+        </main>
       </Container>
       <Footer
         title="Footer"

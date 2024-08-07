@@ -5,6 +5,9 @@ import {
   Button,
   InputBase,
   TextareaAutosize,
+  ThemeProvider,
+  createTheme,
+  CssBaseline,
 } from "@mui/material";
 import { AddCircle as Add } from "@mui/icons-material";
 import React, { useState, ChangeEvent, FormEvent } from "react";
@@ -12,6 +15,8 @@ import { useRouter } from "next/router";
 import withAuth from "@/pages/auth/withAuth";
 import LoadingSpinner from "./LoadingSpinner";
 import { useToast } from "./ToastNotification";
+import ThemeProviderButton from "./ThemeProviderButton";
+import { darkTheme, lightTheme } from "./Theme";
 
 const Container = styled(Box)(({ theme }) => ({
   margin: "50px 100px",
@@ -67,6 +72,7 @@ const CreatePost: React.FC = () => {
   const router = useRouter();
   const [spinner, setSpinner] = React.useState(false);
   const { showToast } = useToast();
+  const [theme, setTheme] = React.useState(lightTheme);
 
   const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
@@ -123,49 +129,63 @@ const CreatePost: React.FC = () => {
     ? post.image
     : "https://images.unsplash.com/photo-1543128639-4cb7e6eeef1b?ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8bGFwdG9wJTIwc2Vd2h8MHx8MHx8&ixlib=rb-1.2.1&w=1000&q=80";
 
+  const toggleTheme = () => {
+    setTheme((prevTheme) =>
+      prevTheme.palette.mode === "light" ? darkTheme : lightTheme
+    );
+  };
+
   return (
     <>
-      <Container>
-        <Image src={url} alt="banner" />
-        <StyledFormControl>
-          <label htmlFor="fileInput">
-            <Add fontSize="large" color="action" style={{ color: "red" }} />
-          </label>
-          <input
-            type="file"
-            id="fileInput"
-            style={{ display: "none" }}
-            onChange={handleImageChange}
-          />
-          <InputTextFeild
-            placeholder="Title"
-            onChange={handleChange}
-            name="title"
-            value={post.title}
-            style={{ color: "red" }}
-          />
-          <InputTextFeild
-            placeholder="Category"
-            onChange={handleChange}
-            name="categories"
-            value={post.categories}
-            style={{ color: "red" }}
-          />
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <ThemeProviderButton toggleTheme={toggleTheme} />
+        <Container>
+          <Image src={url} alt="banner" />
+          <StyledFormControl>
+            <label htmlFor="fileInput">
+              <Add
+                fontSize="large"
+                color="action"
+                style={{ color: "#1976d2" }}
+              />
+            </label>
+            <input
+              type="file"
+              id="fileInput"
+              style={{ display: "none" }}
+              onChange={handleImageChange}
+            />
+            <InputTextFeild
+              placeholder="Title"
+              onChange={handleChange}
+              name="title"
+              value={post.title}
+              style={{ color: "#1976d2" }}
+            />
+            <InputTextFeild
+              placeholder="Category"
+              onChange={handleChange}
+              name="categories"
+              value={post.categories}
+              style={{ color: "#1976d2" }}
+            />
 
-          <Button variant="contained" onClick={handleSubmit}>
-            Publish
-          </Button>
-        </StyledFormControl>
-        <TextArea
-          minRows={5}
-          placeholder="Tell Your Story.."
-          onChange={handleChange}
-          name="content"
-          value={post.content}
-          style={{ color: "red" }}
-        />
-      </Container>
-      {spinner && <LoadingSpinner />}
+            <Button variant="contained" onClick={handleSubmit}>
+              Publish
+            </Button>
+          </StyledFormControl>
+          <TextArea
+            minRows={5}
+            placeholder="Tell Your Story.."
+            onChange={handleChange}
+            name="content"
+            value={post.content}
+            style={{ color: "red", backgroundColor: "inherit" }}
+          />
+        </Container>
+        {spinner && <LoadingSpinner />}
+      </ThemeProvider>
     </>
   );
 };

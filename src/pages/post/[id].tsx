@@ -7,10 +7,13 @@ import Link from "@mui/material/Link";
 import Box from "@mui/material/Box";
 import { format } from "date-fns";
 import axios from "axios";
-import { Button, IconButton, Toolbar } from "@mui/material";
+import { Button, CssBaseline, IconButton, Toolbar } from "@mui/material";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
 import SearchIcon from "@mui/icons-material/Search";
 import LoadingSpinner from "@/components/LoadingSpinner";
 import ProfileMenu from "@/components/ProfileMenu";
+import ThemeProviderButton from "@/components/ThemeProviderButton";
+import { darkTheme, lightTheme } from "@/components/Theme";
 
 interface Author {
   firstName: string;
@@ -29,12 +32,14 @@ interface Post {
   createdAt: string;
 }
 
+
 const SinglePost: React.FC = () => {
   const router = useRouter();
   const { id } = router.query; // Get the post ID from the route
   const [posts, setPosts] = React.useState<Post[]>([]);
   const [spinner, setSpinner] = React.useState(false);
   const [user, setUser] = React.useState<string | null>(null);
+  const [theme, setTheme] = React.useState(lightTheme);
 
   React.useEffect(() => {
     if (typeof window !== "undefined") {
@@ -74,8 +79,18 @@ const SinglePost: React.FC = () => {
     router.push("/auth");
   };
 
+  const toggleTheme = () => {
+    setTheme((prevTheme) =>
+      prevTheme.palette.mode === "light" ? darkTheme : lightTheme
+    );
+  };
+
+
   return (
     <>
+      <ThemeProvider theme={theme}>
+      <CssBaseline/>
+      <ThemeProviderButton toggleTheme={toggleTheme} />
       <Toolbar sx={{ borderBottom: 1, borderColor: "divider" }}>
         <Button size="small">Subscribe</Button>
         <Typography
@@ -173,6 +188,7 @@ const SinglePost: React.FC = () => {
         </Paper>
       )}
       {spinner && <LoadingSpinner />}
+      </ThemeProvider>
     </>
   );
 };

@@ -18,6 +18,8 @@ import axios from "axios";
 import withAuth from "../auth/withAuth";
 import LoadingSpinner from "@/components/LoadingSpinner";
 import EditNoteIcon from "@mui/icons-material/EditNote";
+import ThemeProviderButton from "@/components/ThemeProviderButton";
+import { darkTheme, lightTheme } from "@/components/Theme";
 
 interface Post {
   content: string;
@@ -59,7 +61,6 @@ const sidebar = {
   ],
 };
 
-const defaultTheme = createTheme();
 
 function DashBoard() {
   const router = useRouter();
@@ -68,6 +69,7 @@ function DashBoard() {
     null
   );
   const [spinner, setSpinner] = React.useState(false);
+  const [theme, setTheme] = React.useState(lightTheme);
 
   React.useEffect(() => {
     const fetchPosts = async () => {
@@ -102,9 +104,16 @@ function DashBoard() {
     fetchPosts();
   }, []);
 
+  const toggleTheme = () => {
+    setTheme((prevTheme) =>
+      prevTheme.palette.mode === "light" ? darkTheme : lightTheme
+    );
+  };
+
   return (
-    <ThemeProvider theme={defaultTheme}>
+    <ThemeProvider theme={theme}>
       <CssBaseline />
+      <ThemeProviderButton toggleTheme={toggleTheme} />
       <Container maxWidth="lg" sx={{ minHeight: "90vh" }}>
         <Header title="NextJS Blog App" />
         <Box sx={{ display: "flex", justifyContent: "center" }}>
@@ -119,23 +128,23 @@ function DashBoard() {
           </Button>
         </Box>
         {spinner && <LoadingSpinner />}
-          <main>
-            <MainFeaturedPost post={mainFeaturedPost} />
-            <Grid container spacing={4}>
-              {posts.map((post) => (
-                <FeaturedPost key={post._id} post={post} />
-              ))}
-            </Grid>
-            <Grid container spacing={5} sx={{ mt: 3, minHeight: "50vh" }}>
-              <Main posts={posts} />
-              <Sidebar
-                title={sidebar.title}
-                description={sidebar.description}
-                archives={sidebar.archives}
-                social={sidebar.social}
-              />
-            </Grid>
-          </main>
+        <main>
+          <MainFeaturedPost post={mainFeaturedPost} />
+          <Grid container spacing={4}>
+            {posts.map((post) => (
+              <FeaturedPost key={post._id} post={post} />
+            ))}
+          </Grid>
+          <Grid container spacing={5} sx={{ mt: 3, minHeight: "50vh" }}>
+            <Main posts={posts} />
+            <Sidebar
+              title={sidebar.title}
+              description={sidebar.description}
+              archives={sidebar.archives}
+              social={sidebar.social}
+            />
+          </Grid>
+        </main>
       </Container>
       <Footer
         title="Footer"

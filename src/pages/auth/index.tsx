@@ -15,6 +15,11 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useToast } from "../../components/ToastNotification";
 import { useRouter } from "next/router";
 import LoadingSpinner from "@/components/LoadingSpinner";
+import { IconButton } from "@mui/material";
+import Brightness4Icon from "@mui/icons-material/Brightness4";
+import Brightness7Icon from "@mui/icons-material/Brightness7";
+import ThemeProviderButton from "@/components/ThemeProviderButton";
+import { darkTheme, lightTheme } from "@/components/Theme";
 
 function Copyright(props: any) {
   return (
@@ -34,12 +39,11 @@ function Copyright(props: any) {
   );
 }
 
-// TODO remove, this demo shouldn't need to reset the theme.
-const defaultTheme = createTheme();
 
 export default function Auth() {
   const [logIn, setLogIn] = React.useState(true);
   const [spinner, setSpinner] = React.useState(false);
+  const [theme, setTheme] = React.useState(lightTheme);
 
   const router = useRouter();
   const { showToast } = useToast();
@@ -133,10 +137,18 @@ export default function Auth() {
     }
   }, [router]);
 
+  const toggleTheme = () => {
+    setTheme((prevTheme) =>
+      prevTheme.palette.mode === "light" ? darkTheme : lightTheme
+    );
+  };
+
+
   return (
-    <ThemeProvider theme={defaultTheme}>
+    <ThemeProvider theme={theme}>
+      <ThemeProviderButton toggleTheme={toggleTheme}/>
+        <CssBaseline/>
       <Grid container component="main" sx={{ height: "100vh" }}>
-        <CssBaseline />
         <Grid
           item
           xs={false}
