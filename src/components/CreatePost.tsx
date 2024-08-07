@@ -72,7 +72,7 @@ const CreatePost: React.FC = () => {
   const router = useRouter();
   const [spinner, setSpinner] = React.useState(false);
   const { showToast } = useToast();
-  const [theme, setTheme] = React.useState(lightTheme);
+  const [theme, setTheme] = React.useState(darkTheme);
 
   const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {

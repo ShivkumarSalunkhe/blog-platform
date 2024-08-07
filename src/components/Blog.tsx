@@ -68,7 +68,7 @@ export default function Blog() {
     null
   );
   const [spinner, setSpinner] = React.useState(false);
-  const [theme, setTheme] = React.useState(lightTheme);
+  const [theme, setTheme] = React.useState(darkTheme);
   const router = useRouter();
   const [user, setUser] = React.useState<string | null>(null);
 

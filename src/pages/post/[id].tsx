@@ -39,7 +39,7 @@ const SinglePost: React.FC = () => {
   const [posts, setPosts] = React.useState<Post[]>([]);
   const [spinner, setSpinner] = React.useState(false);
   const [user, setUser] = React.useState<string | null>(null);
-  const [theme, setTheme] = React.useState(lightTheme);
+  const [theme, setTheme] = React.useState(darkTheme);
 
   React.useEffect(() => {
     if (typeof window !== "undefined") {

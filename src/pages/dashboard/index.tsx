@@ -69,7 +69,7 @@ function DashBoard() {
     null
   );
   const [spinner, setSpinner] = React.useState(false);
-  const [theme, setTheme] = React.useState(lightTheme);
+  const [theme, setTheme] = React.useState(darkTheme);
 
   React.useEffect(() => {
     const fetchPosts = async () => {

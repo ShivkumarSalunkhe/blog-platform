@@ -43,7 +43,7 @@ function Copyright(props: any) {
 export default function Auth() {
   const [logIn, setLogIn] = React.useState(true);
   const [spinner, setSpinner] = React.useState(false);
-  const [theme, setTheme] = React.useState(lightTheme);
+  const [theme, setTheme] = React.useState(darkTheme);
 
   const router = useRouter();
   const { showToast } = useToast();
