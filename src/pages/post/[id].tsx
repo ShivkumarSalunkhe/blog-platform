@@ -113,6 +113,7 @@ const SinglePost: React.FC = () => {
             backgroundRepeat: "no-repeat",
             backgroundPosition: "center",
             backgroundImage: `url(${imagePath})`,
+            minHeight: "100vh",
           }}
         >
           <img
